@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿De qué barrio de CABA sos?</title>
+    <style>
+        :root {
+            --afa-blue:#F4A20B;
+            --celeste: #F4C90B;
+            --text: #1a252f;
+            --oro: #f1c40f;
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
+        
+        body { 
+            margin: 0; 
+            padding: 0; 
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #7bc1eb; 
+        }
+
+        /* 🌆 CAPA DEL FONDO */
+        .background-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: url('imagenes/fondo-buenos-aires.png') no-repeat center bottom fixed;
+            background-size: cover;
+            z-index: 1; 
+            pointer-events: none;
+        }
+
+        /* 🚀 CONTENEDOR DE STICKERS FLOTANTES */
+        .stickers-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .floating-sticker {
+            position: absolute;
+            bottom: -90px; 
+            height: 90px; 
+            width: auto;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
+            animation: subir-cielo 10s linear infinite;
+        }
+
+        @keyframes subir-cielo {
+            0% { bottom: -90px; transform: translateX(0) rotate(0deg); opacity: 1; }
+            15% { opacity: 0.9; }
+            85% { opacity: 0.9; }
+            100% { bottom: 110vh; transform: translateX(20px) rotate(360deg); opacity: 1; }
+        }
+
+        .st-chori { left: 13%; animation-duration: 7s; animation-delay: 0s; }
+        .st-chorizo { left: 66%; animation-duration: 8s; animation-delay: 4s; }
+        .st-truco { left: 45%; animation-duration: 7s; animation-delay: 4s; }
+        .st-trucaso { left: 75%; animation-duration: 10s; animation-delay: 0s; }
+        .st-mate  { left: 78%; animation-duration: 7s; animation-delay: 1s; }
+        .st-mate  { left: 2%; animation-duration: 9s; animation-delay: 3s; }
+        
+        .st-obelisco  { left: 88%; animation-duration: 10s; animation-delay: 4s; }
+        .st-obeliscos  { left: 11%; animation-duration: 5s; animation-delay: 6s; }
+
+        .st-copa { left: 28%; animation-duration: 9s; animation-delay: 2s; }
+
+        /* 📦 CUADRO DEL TEST */
+        .container { 
+            background: rgba(255, 255, 255, 0.96); 
+            max-width: 460px; 
+            width: 90%; 
+            padding: 25px; 
+            border-radius: 24px; 
+            border: 4px solid var(--celeste);
+            box-shadow: 0 15px 35px rgba(11, 83, 148, 0.25); 
+            text-align: center; 
+            position: relative;
+            z-index: 10; 
+        }
+
+        h1 { font-size: 24px; margin-bottom: 12px; color: var(--afa-blue); font-weight: 900; letter-spacing: -0.5px; }
+        p { margin-bottom: 20px; font-size: 15px; line-height: 1.4; color: #566573; }
+        
+        .btn { display: block; width: 100%; padding: 18px; margin-bottom: 10px; background: #f8f9f9; border: 2px solid #d5dbdb; border-radius: 12px; font-size: 15px; font-weight: 700; color: var(--text); cursor: pointer; transition: all 0.1s ease; text-align: left; }
+        .btn:hover { border-color: var(--celeste); background: #ebf5fb; }
+        
+        .btn-start { text-align: center; background: var(--afa-blue); color: white; border: none; font-size: 18px; text-transform: uppercase; font-weight: 800; }
+        .btn-start:hover { background: #073763; }
+        
+        .progress-bar { width: 100%; height: 8px; background: #eaeded; border-radius: 4px; margin-bottom: 20px; overflow: hidden; display: none; }
+        .progress { height: 100%; background: var(--afa-blue); width: 0%; transition: width 0.2s ease; }
+        .hidden { display: none; }
+
+        /* ⏳ PANTALLA DE CARGA DEL MATE */
+        .loading-layout { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px 10px; }
+        .loading-gif { width: 180px; height: auto; margin-bottom: 20px; }
+        .loading-text { font-size: 20px; font-weight: 800; color: var(--afa-blue); text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* 📊 RESULTADOS */
+        .result-layout { display: flex; flex-direction: column; align-items: center; margin-top: 15px; }
+        .result-tag { font-size: 13px; font-weight: 900; color: var(--afa-blue); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 5px; }
+        .result-title { font-size: 32px; color: #b7950b; margin-bottom: 15px; font-weight: 900; }
+        
+        .speech-bubble { position: relative; background: #fdfefe; border: 3px solid var(--oro); border-radius: 16px; padding: 18px; font-size: 16px; line-height: 1.4; font-weight: 600; color: #2c3e50; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center; width: 100%; }
+        
+        /* 💰 SECCIÓN AD SENSE POTENCIADA CON MÁS ESPACIO */
+        .adsense-space { background: #f2f4f4; border: 2px dashed #bdc3c7; padding: 25px 12px; margin-top: 15px; font-size: 12px; color: #95a5a6; font-weight: bold; border-radius: 8px; width: 100%; min-height: 120px; display: flex; align-items: center; justify-content: center; }
+
+        .bg-text-arg { position: fixed; top: 80px; left: -20px; font-size: 230px; font-weight: 900; color: rgba(0, 50, 150, 0.03); font-family: 'Arial Black', Impact, sans-serif; z-index: 3; pointer-events: none; user-select: none; transform: rotate(-15deg); }
+
+        /* === 🧱 NUEVA SECCIÓN: CASILLA DE OPINIONES (CSS) === */
+        #feedback-container {
+            margin-top: 25px;
+            background: #fdfefe;
+            border: 3px solid #eaeded;
+            border-radius: 16px;
+            padding: 15px;
+            width: 100%;
+            text-align: left;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.03);
+        }
+
+        #feedback-container h3 {
+            font-size: 18px;
+            color: var(--afa-blue);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        #feedback-container p {
+            font-size: 13px;
+            color: #7f8c8d;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        #user-opinion {
+            width: 100%;
+            height: 80px;
+            border: 2px solid #eaeded;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #2c3e50;
+            resize: none;
+            margin-bottom: 10px;
+        }
+        
+        #user-opinion:focus {
+            outline: none;
+            border-color: var(--afa-blue);
+        }
+
+        .btn-opinion {
+            background: #fff;
+            color: var(--afa-blue);
+            border: 2px solid var(--afa-blue);
+            width: 100%;
+            padding: 12px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .btn-opinion:hover {
+            background: #fdfefe;
+        }
+
+        /* === 📱 NUEVA SECCIÓN: VISION PARA CELULAR (CSS) === */
+        @media (max-width: 600px) {
+            h1 { font-size: 20px; margin-bottom: 8px; }
+            p { font-size: 14px; margin-bottom: 15px; }
+            
+            .container { max-width: 95%; padding: 15px; border-width: 2px; }
+            
+            /* Ajustá el tamaño de los stickers flotantes acá */
+            .floating-sticker { height: 60px; bottom: -60px; }
+            
+            @keyframes subir-cielo {
+                0% { bottom: -60px; transform: translateX(0) rotate(0deg); opacity: 1; }
+                15% { opacity: 0.9; }
+                85% { opacity: 0.9; }
+                100% { bottom: 110vh; transform: translateX(20px) rotate(360deg); opacity: 1; }
+            }
+
+            .btn { font-size: 14px; padding: 12px; }
+            .btn-start { font-size: 16px; }
+            
+            .loading-gif { width: 120px; }
+            .loading-text { font-size: 16px; }
+            
+            .result-title { font-size: 24px; }
+            .result-tag { font-size: 11px; }
+            .speech-bubble { font-size: 14px; padding: 12px; }
+            .adsense-space { min-height: 80px; }
+            
+            /* Ajustes para la casilla de opiniones en mobile */
+            #feedback-container h3 { font-size: 16px; }
+            #user-opinion { height: 70px; font-size: 13px; }
+            .btn-opinion { padding: 10px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="background-layer"></div>
+
+<div class="bg-text-arg">ARG</div>
+
+<div class="stickers-container">
+    <img src="imagenes/chori.png" alt="Choripan" class="floating-sticker st-chori">
+    <img src="imagenes/chorizo.png" alt="Chorizo" class="floating-sticker st-chorizo">
+    <img src="imagenes/trucaso.png" alt="Cartas Truco" class="floating-sticker st-trucaso">
+
+    <img src="imagenes/truco.png" alt="Cartas Truco" class="floating-sticker st-truco">
+    <img src="imagenes/mateico.png" alt="Mate" class="floating-sticker st-mate">
+    <img src="imagenes/obelisco.png" alt="obelisco" class="floating-sticker st-obelisco">
+    <img src="imagenes/obeliscos.png" alt="obeliscos" class="floating-sticker st-obeliscos">
+
+    <img src="imagenes/copa.png" alt="copa" class="floating-sticker st-copa">
+</div>
+
+<div class="container">
+    <div id="progress-container" class="progress-bar"><div id="progress" class="progress"></div></div>
+    
+    <div id="screen-start">
+        <h1>¿DE QUÉ BARRIO DE CABA SOS?</h1>
+        <p>Basándonos en tus respuestas, te daremos un veredicto sincero</p>
+        <button class="btn btn-start" onclick="nextScreen('screen-gender')">Iniciar el test</button>
+    </div>
+
+    <div id="screen-gender" class="hidden">
+        <h1>¿CÓMO TE CONSIDERÁS?</h1>
+        <p>Seleccioná tu opción para arrancar:</p>
+        <button class="btn" onclick="setGender('pibe')">Soy hombre 👦</button>
+        <button class="btn" onclick="setGender('piba')">Soy mujer 👧</button>
+    </div>
+
+    <div id="screen-quiz" class="hidden">
+        <h1 id="question-text" style="color: var(--text); font-size: 24px; font-weight: 800; margin-bottom: 25px; line-height: 1.3;">Pregunta</h1>
+        <div id="options-container"></div>
+    </div>
+
+    <div id="screen-loading" class="hidden">
+        <div class="loading-layout">
+            <img class="loading-gif" src="imagenes/cargando-mate.gif" alt="Cebando Mate">
+            <div class="loading-text">Analizando tus respuestas...</div>
+        </div>
+    </div>
+
+    <div id="screen-result" class="hidden">
+        <div class="result-layout">
+            <div class="result-tag">⭐ Veredicto Final ⭐</div>
+            <div id="result-name" class="result-title">BARRIO</div>
+            
+            <div id="result-text" class="speech-bubble">Calculando...</div>
+            
+            <div style="width: 100%; min-height: 100px; padding: 10px 0; background: #fdfefe; border: 2px dashed #bdc3c7; border-radius: 12px; margin-bottom: 20px;">
+                <p style="font-size: 14px; color: #bdc3c7; font-weight: bold;"></p>
+            </div>
+            
+            <button class="btn btn-start" style="background: var(--text); margin-top: 25px;" onclick="restartQuiz()">¿Volver a testear? 🔄</button>
+            
+            <div id="feedback-container">
+                <h3>¿Qué te pareció el test, che?</h3>
+                <p>Si te salió cualquier cosa o tenés una idea genial para un sticker nuevo (o un barrio que falta), ¡dejame tu opinión acá abajo!</p>
+                <textarea id="user-opinion" placeholder="Tu opinión sincera o ideas para stickers..."></textarea>
+                <button class="btn btn-opinion" onclick="sendFeedback()">Enviar Opinión Directo al Autor 📧</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { q: "1. Sábado 7 de la tarde, ¿cuál plan te gusta más?", ops: [
+            {t:"Quedarse en casa 🏠.", tag:"tradicional"},
+            {t:"Café de especialidad en un lugar estético ☕.", tag:"moderno"},
+            {t:"Tomarse una birrita en algún kiosco o esquina 🍺.", tag:"bardo"},
+            {t:"Mates con algo dulce en la plaza 🧉🥐.", tag:"residencial"}
+        ]},
+        { q: "2. ¿Cómo te movilizás y qué te bancás del transporte?", ops: [
+            {t:"Subte A, Subte D o colectivos que van directo al oeste 🚊🚍.", tag:"oeste"},
+            {t:"Uber, Cabify o bici 🚗🚲. ", tag:"norte_top"},
+            {t:"Colectivo a morir o Subte B, Subte H 🚇🚌.", tag:"centro_movida"},
+            {t:"Tren, Subte C o líneas que salen directo a las terminales 🚆🚊 .", tag:"sur_centro"}
+        ]},
+        { q: "3. ¿Qué es lo que más te jode de caminar por la calle?", ops: [
+            {t:"Los manteros y las veredas detonadas.", tag:"bardo"},
+            {t:"Que derrumben casas viejas para meter edificios.", tag:"tradicional"},
+            {t:"Que te arranquen la cabeza por un tostado y un café.", tag:"moderno"},
+            {t:"Los piquetes y las marchas.", tag:"sur_centro"}
+        ]},
+        { q: "4. Bajón a la noche, ¿cuál te sirve?", ops: [
+            {t:"Pizza fría 🍕.", tag:"sur_centro"},
+            {t:"Tiramisú o heladito 🍨", tag:"moderno"},
+            {t:"Algún bajón del kiosco 🍫🏪.", tag:"bardo"},
+            {t:"Hamburguesita por delivery 🍔.", tag:"residencial"}
+        ]},
+        { q: "5. Si salís de joda o a tomar algo de noche, ¿qué elegís?", ops: [
+            {t:"Fiesta electrónica o bar cheto 📀🥃🕺.", tag:"norte_top"},
+            {t:"Centro cultural independiente o peña 💃🎤.", tag:"centro_movida"},
+            {t:"Cervecería de avenida con pantallas o el bar de siempre 🍺📺.", tag:"oeste"},
+            {t:"Bar de rock nacional o boliche de cumbia 🤟🏻🎸🪩🪇.", tag:"bardo"}
+        ]},
+        { q: "6. ¿Cómo es la cuadra ideal donde te gustaría vivir?", ops: [
+            {t:"Calle empedrada con PHs viejos 🏘️.", tag:"tradicional"},
+            {t:"Avenida gigante con movimiento 24hs 🏬.", tag:"bardo"},
+            {t:"Calle residencial, arbolada y silenciosa 🏡.", tag:"residencial"},
+            {t:"Edificio alto con subte en la esquina 🏢.", tag:"centro_movida"}
+        ]},
+        { q: "7. Tenés que elegir un punto de encuentro, ¿cuál te queda cómodo?", ops: [
+            {t:"Corrientes y Dorrego.", tag:"ZONA_NORTE"},
+            {t:"Plaza Serrano / Parque las Heras.", tag:"ZONA_NORTE"},
+            {t:"Parque Centenario.", tag:"ZONA_CENTRO_OESTE"},
+            {t:"Plaza Flores / Primera Junta.", tag:"ZONA_CENTRO_OESTE"},
+            {t:"Estación Once.", tag:"ZONA_SUR_CENTRO"},
+            {t:"Plaza Constitución / Corrientes y Callao.", tag:"ZONA_SUR_CENTRO"},
+            {t:"Parque Patricios / Mataderos / La cancha de Boca.", tag:"ZONA_SUR_SUR"}
+        ]},
+        { q: "8. ¿Cuál sería tu espacio verde para pasar el domingo?", ops: [
+            {t:"Los Lagos de Palermo, Jardín Japonés o el planetario.", tag:"ZONA_NORTE"},
+            {t:"Parque Centenario, Parque Rivadavia o Parque Chacabuco.", tag:"ZONA_CENTRO_OESTE"},
+            {t:"Plaza Dorrego, Parque Lezama o Costanera Sur.", tag:"ZONA_SUR_CENTRO"},
+            {t:"Parque Avellaneda, la plaza de Devoto o Agronomía.", tag:"ZONA_SUR_SUR"}
+        ]},
+        { q: "9. ¿Qué prenda o accesorio no te puede faltar en la calle?", ops: [
+            {t:"Gorrita, ropita (oversize) y algún bolsito 🧢👖👜.", tag:"moderno"},
+            {t:"Campera de cuero gastada o ropa oscura de rock 🤟🏻🎸🥾.", tag:"bardo"},
+            {t:"Chomba/camisa, perfume y zapatos 👔👞.", tag:"norte_top"},
+            {t:"Ropa deportiva cómoda 👟👕.", tag:"residencial"}
+        ]},
+        { q: "10. Si te ganás el quini 6, ¿qué te comprás?", ops: [
+            {t:"Departamento estilo europeo en Recoleta.", tag:"norte_top"},
+            {t:"Monoambiente moderno.", tag:"moderno"},
+            {t:"PH enorme con patio interno y parrilla.", tag:"tradicional"},
+            {t:"Caserón gigante con patio cerca de la General Paz.", tag:"residencial"}
+        ]},
+
+        // --- 🚀 TUS PREGUNTAS (11 A 15) RE-INSERTADAS Y CORREGIDAS ---
+        { q: "11. Te tomás un bondi lleno en hora pico, ¿qué actitud tomás?", ops: [
+            {t:"Te ponés los auriculares y ponés mente en blanco metido en tu mundo 🎧.", tag:"residencial"},
+            {t:"Vas re atento cuidando las pertenencias y sacando pecho por si viajas parado 🚌.", tag:"sur_centro"},
+            {t:"Aprovechás el viaje largo para responder audios o leer noticias 📱.", tag:"centro_movida"},
+            {t:"Tratás de viajar en hora valle o preferís estirarte y pedir un auto privado 🚗.", tag:"norte_top"}
+        ]},
+        { q: "12. ¿Dónde solés comprar la ropa o las cosas que necesitás?", ops: [
+            {t:"En locales de marcas independientes o ferias americanas seleccionadas 🧥.", tag:"moderno"},
+            {t:"En el shopping más cercano o locales oficiales de avenidas principales 🛍️.", tag:"norte_top"},
+            {t:"En centros comerciales a cielo abierto, galerías de barrio o locales mayoristas 🏪.", tag:"bardo"},
+            {t:"En el negocio de toda la vida atendido por sus propios dueños 👴.", tag:"tradicional"}
+        ]},
+        { q: "13. ¿Cuál es tu relación ideal con el fútbol de la ciudad?", ops: [
+            {t:"Cancha todos los findes a puro grito, tablón y aguante popular ⚽.", tag:"bardo"},
+            {t:"Lo mirás tranqui por la tele con amigos comiendo un asado o picada 📺.", tag:"tradicional"},
+            {t:"No te cambia la vida, preferís usar el finde para otra actividad o ir al gimnasio 🏃.", tag:"moderno"},
+            {t:"Hincha de club de barrio, te gusta ir a las actividades sociales o al buffet del club 🏆.", tag:"residencial"}
+        ]},
+        { q: "14. Si te invitan a cenar afuera un viernes por la noche, ¿qué menú preferís?", ops: [
+            {t:"Plato gourmet o de autor en un bodegón palermitano con luces bajas 🍽️.", tag:"moderno"},
+            {t:"Un plato abundante de pastas o milanesa enorme en el club de barrio 🍝.", tag:"tradicional"},
+            {t:"Algo rápido en una cadena conocida o hamburguesería de moda 🍔.", tag:"centro_movida"},
+            {t:"Cortes de carne premium en una parrilla top o restaurante de categoría 🥩.", tag:"norte_top"}
+        ]},
+        { q: "15. ¿Qué tipo de música suena en tus auriculares habitualmente?", ops: [
+            {t:"Indie, trap, urbano o algún podcast del momento 🎧.", tag:"moderno"},
+            {t:"Rock nacional, folclore, tango o clásicos rioplatenses 🎸.", tag:"tradicional"},
+            {t:"Cumbia, cuarteto o RKT bien arriba para activar 🪩.", tag:"bardo"},
+            {t:"Música tranqui, pop, electrónica melódica o lo que esté sonando en la radio 📻.", tag:"residencial"}
+        ]}
+    ];
+
+    const barrioteca = {
+        // === ZONA NORTE ===
+        "Palermo": { zone: "ZONA_NORTE", style: "moderno", pibe: "Te re dio Palermo Soho. Flat white con leche de almendras y outfit oversize.", piba: "Te re dio Palermo. Avocado toast, depto estallado de plantas exóticas." },
+        "Recoleta": { zone: "ZONA_NORTE", style: "norte_top", pibe: "Lo tuyo es caminar entre arquitectura europea y usar perfume importado.", piba: "Amás pasear por la Av. Alvear, tus modales son impecables." },
+        "Belgrano": { zone: "ZONA_NORTE", style: "residencial", pibe: "Equilibrio entre torres y caserones.running por las Barrancas.", piba: "Tranquilidad residencial pero con categoría. mates en Barrancas." },
+        "Colegiales": { zone: "ZONA_NORTE", style: "tradicional", pibe: "Vecino de Palermo pero con códigos de barrio de antes. PH reciclado.", piba: "Toda la onda pero cero careteada. Te encantan los cafecitos escondidos." },
+        "Nuñez": { zone: "ZONA_NORTE", style: "centro_movida", pibe: "Actividades al aire libre y movida gastronómica nueva.", piba: "Amás la cercanía con el río, salir a caminar los findes." },
+        "Saavedra": { zone: "ZONA_NORTE", style: "sur_centro", pibe: "Ritual sagrado ir al Parque Saavedra a clavar unos amargos.", piba: "Tardes en el parque tomando mates con churros." },
+        "Villa Urquiza": { zone: "ZONA_NORTE", style: "bardo", pibe: "El barrio se llenó de birrerías picantes, pero vos cuidás las diagonales tranquilas.", piba: "Te encanta que el barrio tenga de todo: centros comerciales, boliches y subte." },
+
+        // === ZONA CENTRO OESTE ===
+        "Almagro": { zone: "ZONA_CENTRO_OESTE", style: "centro_movida", pibe: "fugazzeta de parado en Imperio y centro cultural under.", piba: "Te conocés todos los bodegones y onda cultural e independiente." },
+        "Caballito": { zone: "ZONA_CENTRO_OESTE", style: "residencial", pibe: "termo bajo el brazo y dar vueltas eternas por Parque Centenario.", piba: "porteña imposible. Tu patio trasero es el Parque Rivadavia." },
+        "Villa Crespo": { zone: "ZONA_CENTRO_OESTE", style: "tradicional", pibe: "mística porteña. tres cuadras de cola para el pancito de masa madre.", piba: "Identidad barrial pura. talleres viejos con los nuevos locales con onda." },
+        "Flores": { zone: "ZONA_CENTRO_OESTE", style: "bardo", pibe: "calle comercial a morir y lleno de historias.", piba: "Pura garra y movimiento. sabés dónde comprar barato de una." },
+        "Floresta": { zone: "ZONA_CENTRO_OESTE", style: "oeste", pibe: "Casas bajas, veredas anchas y códigos de barrio antiguo.", piba: "negocio de toda la vida atendido por sus propios dueños." },
+        "Chacarita": { zone: "ZONA_CENTRO_OESTE", style: "moderno", pibe: "teatro independiente y vermut tirado en una vereda.", piba: "bohemia moderna. teatros independientes, vinito en copas." },
+        "Boedo": { zone: "ZONA_CENTRO_OESTE", style: "tradicional", pibe: "sentarte en San Juan y Boedo a tomar un cafecito bien cargado.", piba: "murga, poesía y barrio. noches de bodegón." },
+        "Agronomía": { zone: "ZONA_CENTRO_OESTE", style: "oeste", pibe: "paz absoluta en pleno centro de la ciudad.", piba: " oasis residencial. pasajes escondidos, plazas silenciosas." },
+
+        // === ZONA SUR CENTRO ===
+        "Constitución": { zone: "ZONA_SUR_CENTRO", style: "bardo", pibe: "te armás de paciencia en la estación y le esquivás al bardo.", piba: "Pura garra. máster en supervivencia urbana." },
+        "San Telmo": { zone: "ZONA_SUR_CENTRO", style: "moderno", pibe: "adoquines, antigüedades y la bohemia.", piba: "historia de las casonas viejas, artistas callejeros." },
+        "Monserrat": { zone: "ZONA_SUR_CENTRO", style: "centro_movida", pibe: "casco histórico. cúpulas imponentes y oficinas.", piba: "Vivís con el pulso de la ciudad a pleno. microcentro." },
+        "Balvanera": { zone: "ZONA_SUR_CENTRO", style: "tradicional", pibe: "Once profundo. quilombo hermoso de culturas.", piba: "no te frena nada. energía arrolladora." },
+        "San Cristóbal": { zone: "ZONA_SUR_CENTRO", style: "oeste", pibe: "bien tanguero y laburante. pizzerías viejas.", piba: "porteña tradicional. Valorás la vida familiar." },
+        "La Boca": { zone: "ZONA_SUR_CENTRO", style: "bardo", pibe: "pura pasión. conventillos de colores, tango y fútbol.", piba: "personalidad picante, ruidosa. cultura popular." },
+        "Parque Patricios": { zone: "ZONA_SUR_CENTRO", style: "sur_centro", pibe: "distrito tecnológico que mantiene intacta su alma barrial.", piba: "combinación de modernidad con esencia de barrio." },
+        "Barracas": { zone: "ZONA_SUR_CENTRO", style: "norte_top", pibe: "pasajes antiguos como Lanín, lofts reciclados.", piba: "arquitectura industrial reciclada. calles arboladas." },
+
+        // === ZONA SUR SUR ===
+        "Villa Devoto": { zone: "ZONA_SUR_SUR", style: "residencial", pibe: "caserones gigantes y árboles enormes. paz total.", piba: "elegancia y calidez. pasear por la calle Cuenca." },
+        "Mataderos": { zone: "ZONA_SUR_SUR", style: "tradicional", pibe: "Donde el campo y la ciudad se dan la mano. Gauchos.", piba: "Alma criolla y tradicional. empanadas fritas jugosas." },
+        "Lugano": { zone: "ZONA_SUR_SUR", style: "sur_centro", pibe: "monoblocks o casas bajas. vecinos solidarios.", piba: "Pura garra, laburo y aguante. códigos barriales inquebrantables." },
+        "Liniers": { zone: "ZONA_SUR_SUR", style: "centro_movida", pibe: "Movimiento comercial infernal y San Cayetano.", piba: "energía arrolladora, caminás rapidísimo esquivando gente." },
+        "Nueva Pompeya": { zone: "ZONA_SUR_SUR", style: "oeste", pibe: "Cuna del tango y el Puente Alsina.", piba: "mística suburbana e histórica. tango, murga." },
+        "Puerto Madero": { zone: "ZONA_SUR_SUR", style: "norte_top", pibe: "rascacielos espejados, diques. VIP absoluto.", piba: "Exclusividad total, diques limpios y seguridad máximo." },
+        "Versalles": { zone: "ZONA_SUR_SUR", style: "residencial", pibe: "más verde y menos contaminación sonora.", piba: "Mística de película y tranquilidad total. familiero." }
+    };
+
+    let currentGender = '';
+    let currentQuestion = 0;
+    // === 🛠️ ARREGLO TÉCNICO: styleScores y zoneScores vacíos para arrancar limpio ===
+    let styleScores = {};
+    let zoneScores = {};
+
+    function nextScreen(nextId) {
+        document.getElementById('screen-start').classList.add('hidden');
+        document.getElementById('screen-gender').classList.add('hidden');
+        document.getElementById('screen-quiz').classList.add('hidden');
+        document.getElementById('screen-loading').classList.add('hidden');
+        document.getElementById('screen-result').classList.add('hidden');
+        document.getElementById(nextId).classList.remove('hidden');
+    }
+
+    function setGender(gender) {
+        currentGender = gender;
+        // === 🛠️ ARREGLO TÉCNICO: Limpiamos los puntajes por si vuelven a jugar sin recargar ===
+        styleScores = { tradicional: 0, moderno: 0, bardo: 0, residencial: 0, oeste: 0, norte_top: 0, centro_movida: 0, sur_centro: 0 };
+        zoneScores = { ZONA_NORTE: 0, ZONA_CENTRO_OESTE: 0, ZONA_SUR_CENTRO: 0, ZONA_SUR_SUR: 0 };
+        document.getElementById('progress-container').style.display = 'block';
+        currentQuestion = 0;
+        nextScreen('screen-quiz');
+        showQuestion();
+    }
+
+    function showQuestion() {
+        if(currentQuestion >= questions.length) {
+            // Cuando termina el juego, ocultamos la barra y activamos la carga animada
+            document.getElementById('progress-container').style.display = 'none';
+            nextScreen('screen-loading');
+            
+            // Espera de 3 segundos (3000 milisegundos) y muestra el resultado
+            setTimeout(calculateResult, 3000);
+            return;
+        }
+        
+        let pct = (currentQuestion / questions.length) * 100;
+        document.getElementById('progress').style.width = pct + '%';
+
+        let qData = questions[currentQuestion];
+        document.getElementById('question-text').innerText = qData.q;
+        
+        let optionsDiv = document.getElementById('options-container');
+        optionsDiv.innerHTML = '';
+        
+        qData.ops.forEach(op => {
+            let btn = document.createElement('button');
+            btn.className = 'btn';
+            btn.innerText = op.t;
+            btn.onclick = () => {
+                if (op.tag.startsWith("ZONA_")) {
+                    zoneScores[op.tag] += 3;
+                } else {
+                    styleScores[op.tag]++;
+                }
+                currentQuestion++;
+                showQuestion();
+            };
+            optionsDiv.appendChild(btn);
+        });
+    }
+
+    function calculateResult() {
+        nextScreen('screen-result');
+        
+        let finalZone = 'ZONA_NORTE';
+        let maxZoneScore = -1;
+        for(let z in zoneScores) { if(zoneScores[z] > maxZoneScore) { maxZoneScore = zoneScores[z]; finalZone = z; } }
+
+        let finalStyle = 'moderno';
+        let maxStyleScore = -1;
+        for(let s in styleScores) { if(styleScores[s] > maxStyleScore) { maxStyleScore = styleScores[s]; finalStyle = s; } }
+
+        let exactBarrio = "";
+        let fallbackBarrio = "";
+
+        for (let bName in barrioteca) {
+            let bData = barrioteca[bName];
+            if (bData.zone === finalZone) {
+                if (!fallbackBarrio) fallbackBarrio = bName;
+                if (bData.style === finalStyle) { exactBarrio = bName; break; }
+            }
+        }
+
+        let winnerName = exactBarrio || fallbackBarrio || "Palermo";
+        let winnerData = barrioteca[winnerName];
+
+        document.getElementById('result-name').innerText = "➡️ " + winnerName.toUpperCase() + "⬅️";
+        
+        if (winnerData.pibe && currentGender === 'pibe') {
+            document.getElementById('result-text').innerText = winnerData.pibe;
+        } else if (winnerData.piba && currentGender === 'piba') {
+            document.getElementById('result-text').innerText = winnerData.piba;
+        } else {
+            document.getElementById('result-text').innerText = winnerData.defaultText || "¡Qué elegancia la de Francia! Tu personalidad encaja justo con la mística de este gran barrio porteño.";
+        }
+    }
+
+    function restartQuiz() {
+        // === 🛠️ ARREGLO TÉCNICO: Reinicio total, directo a pantalla de género ===
+        nextScreen('screen-gender');
+    }
+
+    // === 💬 LÓGICA DE OPINIONES (JAVASCRIPT) ===
+    function sendFeedback() {
+        const opinionText = document.getElementById('user-opinion').value;
+        const winnerBarrio = document.getElementById('result-name').innerText;
+        const gender = currentGender.toUpperCase();
+
+        if (!opinionText.trim()) {
+            alert('¡Dale, fiera! Dejame al menos una idea antes de enviar 😅.');
+            return;
+        }
+
+        // === 🛠️ Correo real verificado y intacto ===
+        const tuEmail = "santiagosolari48@gmail.com"; 
+
+        const subject = encodeURIComponent("Opinión sobre el Test de Barrios de CABA");
+        const body = encodeURIComponent(
+            `Veredicto: ${winnerBarrio} (${gender})\n` +
+            `Opinión:\n"${opinionText}"`
+        );
+
+        const mailtoLink = `mailto:${tuEmail}?subject=${subject}&body=${body}`;
+        
+        // Abre el correo del usuario
+        window.location.href = mailtoLink;
+
+        // Limpia la casilla y confirma (aunque ya se fue al correo)
+        document.getElementById('user-opinion').value = '';
+        alert('¡Buenísimo! Se abrió tu correo para enviar la opinión. ¡Gracias por el aguante!');
+    }
+</script>
+
+</body>
+</html>
