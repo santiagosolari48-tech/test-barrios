@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7500426906784906"
-     crossorigin="anonymous"></script>
+    <!-- Código de Google AdSense Vinculado -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7500426906784906" crossorigin="anonymous"></script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,18 +25,17 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #7bc1eb; 
         }
 
-        /* 🌆 CAPA DEL FONDO */
+        /* 🌆 CAPA DEL FONDO CORREGIDA (Se adapta al 100% exacto de cualquier pantalla) */
         .background-layer {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: url('imagenes/fondo-buenos-aires.png') no-repeat center bottom fixed;
-            background-size: cover;
+            background: url('imagenes/fondo-buenos-aires.png') no-repeat center center;
+            background-size: 100% 100%;
             z-index: 1; 
             pointer-events: none;
         }
@@ -80,11 +79,11 @@
 
         .st-copa { left: 28%; animation-duration: 9s; animation-delay: 2s; }
 
-        /* 📦 CUADRO DEL TEST */
+        /* 📦 CUADRO DEL TEST CORREGIDO (Más ancho y cómodo) */
         .container { 
             background: rgba(255, 255, 255, 0.96); 
-            max-width: 460px; 
-            width: 90%; 
+            max-width: 500px; 
+            width: 92%; 
             padding: 25px; 
             border-radius: 24px; 
             border: 4px solid var(--celeste);
@@ -92,9 +91,10 @@
             text-align: center; 
             position: relative;
             z-index: 10; 
+            margin-top: 20px;
         }
 
-        h1 { font-size: 24px; margin-bottom: 12px; color: var(--afa-blue); font-weight: 900; letter-spacing: -0.5px; }
+        h1 { font-size: 26px; margin-bottom: 12px; color: var(--afa-blue); font-weight: 900; letter-spacing: -0.5px; line-height: 1.2; }
         p { margin-bottom: 20px; font-size: 15px; line-height: 1.4; color: #566573; }
         
         .btn { display: block; width: 100%; padding: 18px; margin-bottom: 10px; background: #f8f9f9; border: 2px solid #d5dbdb; border-radius: 12px; font-size: 15px; font-weight: 700; color: var(--text); cursor: pointer; transition: all 0.1s ease; text-align: left; }
@@ -119,12 +119,15 @@
         
         .speech-bubble { position: relative; background: #fdfefe; border: 3px solid var(--oro); border-radius: 16px; padding: 18px; font-size: 16px; line-height: 1.4; font-weight: 600; color: #2c3e50; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center; width: 100%; }
         
-        /* 💰 SECCIÓN AD SENSE POTENCIADA CON MÁS ESPACIO */
-        .adsense-space { background: #f2f4f4; border: 2px dashed #bdc3c7; padding: 25px 12px; margin-top: 15px; font-size: 12px; color: #95a5a6; font-weight: bold; border-radius: 8px; width: 100%; min-height: 120px; display: flex; align-items: center; justify-content: center; }
+        /* 💰 SECCIÓN AD SENSE COMPATIBLE */
+        .adsense-space { background: #f2f4f4; border: 1px dashed #bdc3c7; padding: 15px 5px; margin-top: 15px; width: 100%; min-height: 100px; display: flex; align-items: center; justify-content: center; }
+
+        /* 📄 POLÍTICA DE PRIVACIDAD LEGAL EXIGIDA POR GOOGLE */
+        .privacy-box { margin-top: 20px; padding: 10px; background: #f8f9f9; border-top: 1px solid #eaeded; border-radius: 8px; font-size: 11px; color: #7f8c8d; text-align: center; line-height: 1.3; width: 100%; }
 
         .bg-text-arg { position: fixed; top: 80px; left: -20px; font-size: 230px; font-weight: 900; color: rgba(0, 50, 150, 0.03); font-family: 'Arial Black', Impact, sans-serif; z-index: 3; pointer-events: none; user-select: none; transform: rotate(-15deg); }
 
-        /* === 🧱 NUEVA SECCIÓN: CASILLA DE OPINIONES (CSS) === */
+        /* === 🧱 CASILLA DE OPINIONES === */
         #feedback-container {
             margin-top: 25px;
             background: #fdfefe;
@@ -133,7 +136,7 @@
             padding: 15px;
             width: 100%;
             text-align: left;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.03);
+            box-shadow: 0 4px 8 rgba(0,0,0,0.03);
         }
 
         #feedback-container h3 {
@@ -182,14 +185,13 @@
             background: #fdfefe;
         }
 
-        /* === 📱 NUEVA SECCIÓN: VISION PARA CELULAR (CSS) === */
+        /* === 📱 AJUSTES MÓVILES EXCLUSIVOS === */
         @media (max-width: 600px) {
-            h1 { font-size: 20px; margin-bottom: 8px; }
+            h1 { font-size: 21px; margin-bottom: 8px; letter-spacing: -0.3px; }
             p { font-size: 14px; margin-bottom: 15px; }
             
-            .container { max-width: 70%; padding: 15px; border-width: 2px; }
+            .container { width: 92%; max-width: 480px; padding: 18px; border-width: 3px; }
             
-            /* Ajustá el tamaño de los stickers flotantes acá */
             .floating-sticker { height: 60px; bottom: -60px; }
             
             @keyframes subir-cielo {
@@ -199,7 +201,7 @@
                 100% { bottom: 110vh; transform: translateX(20px) rotate(360deg); opacity: 1; }
             }
 
-            .btn { font-size: 14px; padding: 12px; }
+            .btn { font-size: 14px; padding: 14px; }
             .btn-start { font-size: 16px; }
             
             .loading-gif { width: 120px; }
@@ -210,7 +212,6 @@
             .speech-bubble { font-size: 14px; padding: 12px; }
             .adsense-space { min-height: 80px; }
             
-            /* Ajustes para la casilla de opiniones en mobile */
             #feedback-container h3 { font-size: 16px; }
             #user-opinion { height: 70px; font-size: 13px; }
             .btn-opinion { padding: 10px; font-size: 13px; }
@@ -253,7 +254,7 @@
     </div>
 
     <div id="screen-quiz" class="hidden">
-        <h1 id="question-text" style="color: var(--text); font-size: 24px; font-weight: 800; margin-bottom: 25px; line-height: 1.3;">Pregunta</h1>
+        <h1 id="question-text" style="color: var(--text); font-size: 22px; font-weight: 800; margin-bottom: 25px; line-height: 1.3;">Pregunta</h1>
         <div id="options-container"></div>
     </div>
 
@@ -271,8 +272,17 @@
             
             <div id="result-text" class="speech-bubble">Calculando...</div>
             
-            <div style="width: 100%; min-height: 100px; padding: 10px 0; background: #fdfefe; border: 2px dashed #bdc3c7; border-radius: 12px; margin-bottom: 20px;">
-                <p style="font-size: 14px; color: #bdc3c7; font-weight: bold;"></p>
+            <!-- Bloque de anuncios automáticos real e integrado de AdSense -->
+            <div class="adsense-space">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-7500426906784906"
+                     data-ad-slot="auto"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
             </div>
             
             <button class="btn btn-start" style="background: var(--text); margin-top: 25px;" onclick="restartQuiz()">¿Volver a testear? 🔄</button>
@@ -282,6 +292,11 @@
                 <p>Si te salió cualquier barrio o tenés una idea de otra pregunta, Dejalo acá abajo!</p>
                 <textarea id="user-opinion" placeholder="Tu opinión sincera o ideas para stickers..."></textarea>
                 <button class="btn btn-opinion" onclick="sendFeedback()">Enviar Opinión  📧</button>
+            </div>
+
+            <!-- Texto legal requerido obligatoriamente por Google AdSense -->
+            <div class="privacy-box">
+                Anuncios de Google. Este sitio utiliza cookies propias y de terceros para personalizar el contenido y analizar el tráfico web de forma anónima para AdSense.
             </div>
         </div>
     </div>
@@ -352,8 +367,6 @@
             {t:"PH enorme con patio interno y parrilla.", tag:"tradicional"},
             {t:"Caserón gigante con patio cerca de la General Paz.", tag:"residencial"}
         ]},
-
-        // --- 🚀 TUS PREGUNTAS (11 A 15) RE-INSERTADAS Y CORREGIDAS ---
         { q: "11. Te tomás un bondi lleno en hora pico, ¿qué actitud tomás?", ops: [
             {t:"Te ponés los auriculares y ponés mente en blanco metido en tu mundo 🎧.", tag:"residencial"},
             {t:"Vas re atento cuidando las pertenencias y sacando pecho por si viajas parado 🚌.", tag:"sur_centro"},
@@ -387,7 +400,6 @@
     ];
 
     const barrioteca = {
-        // === ZONA NORTE ===
         "Palermo": { zone: "ZONA_NORTE", style: "moderno", pibe: "Te re dio Palermo Soho. Flat white con leche de almendras y outfit oversize.", piba: "Te re dio Palermo. Avocado toast, depto estallado de plantas exóticas." },
         "Recoleta": { zone: "ZONA_NORTE", style: "norte_top", pibe: "Lo tuyo es caminar entre arquitectura europea y usar perfume importado.", piba: "Amás pasear por la Av. Alvear, tus modales son impecables." },
         "Belgrano": { zone: "ZONA_NORTE", style: "residencial", pibe: "Equilibrio entre torres y caserones.running por las Barrancas.", piba: "Tranquilidad residencial pero con categoría. mates en Barrancas." },
@@ -396,31 +408,28 @@
         "Saavedra": { zone: "ZONA_NORTE", style: "sur_centro", pibe: "Ritual sagrado ir al Parque Saavedra a clavar unos amargos.", piba: "Tardes en el parque tomando mates con churros." },
         "Villa Urquiza": { zone: "ZONA_NORTE", style: "bardo", pibe: "El barrio se llenó de birrerías picantes, pero vos cuidás las diagonales tranquilas.", piba: "Te encanta que el barrio tenga de todo: centros comerciales, boliches y subte." },
 
-        // === ZONA CENTRO OESTE ===
         "Almagro": { zone: "ZONA_CENTRO_OESTE", style: "centro_movida", pibe: "fugazzeta de parado en Imperio y centro cultural under.", piba: "Te conocés todos los bodegones y onda cultural e independiente." },
         "Caballito": { zone: "ZONA_CENTRO_OESTE", style: "residencial", pibe: "termo bajo el brazo y dar vueltas eternas por Parque Centenario.", piba: "porteña imposible. Tu patio trasero es el Parque Rivadavia." },
         "Villa Crespo": { zone: "ZONA_CENTRO_OESTE", style: "tradicional", pibe: "mística porteña. tres cuadras de cola para el pancito de masa madre.", piba: "Identidad barrial pura. talleres viejos con los nuevos locales con onda." },
-        "Flores": { zone: "ZONA_CENTRO_OESTE", style: "bardo", pibe: "calle comercial a morir y lleno de historias.", piba: "Pura garra y movimiento. sabés dónde comprar barato de una." },
+        "Flores": { zone: "ZONA_CENTRO_OESTE", style: "bardo", pibe: "calle comercial a morir y lleno de historias.", piba: "Pura garras y movimiento. sabés dónde comprar barato de una." },
         "Floresta": { zone: "ZONA_CENTRO_OESTE", style: "oeste", pibe: "Casas bajas, veredas anchas y códigos de barrio antiguo.", piba: "negocio de toda la vida atendido por sus propios dueños." },
         "Chacarita": { zone: "ZONA_CENTRO_OESTE", style: "moderno", pibe: "teatro independiente y vermut tirado en una vereda.", piba: "bohemia moderna. teatros independientes, vinito en copas." },
         "Boedo": { zone: "ZONA_CENTRO_OESTE", style: "tradicional", pibe: "sentarte en San Juan y Boedo a tomar un cafecito bien cargado.", piba: "murga, poesía y barrio. noches de bodegón." },
         "Agronomía": { zone: "ZONA_CENTRO_OESTE", style: "oeste", pibe: "paz absoluta en pleno centro de la ciudad.", piba: " oasis residencial. pasajes escondidos, plazas silenciosas." },
 
-        // === ZONA SUR CENTRO ===
         "Constitución": { zone: "ZONA_SUR_CENTRO", style: "bardo", pibe: "te armás de paciencia en la estación y le esquivás al bardo.", piba: "Pura garra. máster en supervivencia urbana." },
         "San Telmo": { zone: "ZONA_SUR_CENTRO", style: "moderno", pibe: "adoquines, antigüedades y la bohemia.", piba: "historia de las casonas viejas, artistas callejeros." },
         "Monserrat": { zone: "ZONA_SUR_CENTRO", style: "centro_movida", pibe: "casco histórico. cúpulas imponentes y oficinas.", piba: "Vivís con el pulso de la ciudad a pleno. microcentro." },
         "Balvanera": { zone: "ZONA_SUR_CENTRO", style: "tradicional", pibe: "Once profundo. quilombo hermoso de culturas.", piba: "no te frena nada. energía arrolladora." },
         "San Cristóbal": { zone: "ZONA_SUR_CENTRO", style: "oeste", pibe: "bien tanguero y laburante. pizzerías viejas.", piba: "porteña tradicional. Valorás la vida familiar." },
         "La Boca": { zone: "ZONA_SUR_CENTRO", style: "bardo", pibe: "pura pasión. conventillos de colores, tango y fútbol.", piba: "personalidad picante, ruidosa. cultura popular." },
-        "Parque Patricios": { zone: "ZONA_SUR_CENTRO", style: "sur_centro", pibe: "distrito tecnológico que mantiene intacta su alma barrial.", piba: "combinación de modernidad con esencia de barrio." },
+        "Parque Patricios": { zone: "ZONA_SUR_CENTRO", style: "sur_centro", pibe: "distrito tecnológico que mantiene intacta su alma barrial.", piba: "combinación de modernidad con essence de barrio." },
         "Barracas": { zone: "ZONA_SUR_CENTRO", style: "norte_top", pibe: "pasajes antiguos como Lanín, lofts reciclados.", piba: "arquitectura industrial reciclada. calles arboladas." },
 
-        // === ZONA SUR SUR ===
         "Villa Devoto": { zone: "ZONA_SUR_SUR", style: "residencial", pibe: "caserones gigantes y árboles enormes. paz total.", piba: "elegancia y calidez. pasear por la calle Cuenca." },
         "Mataderos": { zone: "ZONA_SUR_SUR", style: "tradicional", pibe: "Donde el campo y la ciudad se dan la mano. Gauchos.", piba: "Alma criolla y tradicional. empanadas fritas jugosas." },
         "Lugano": { zone: "ZONA_SUR_SUR", style: "sur_centro", pibe: "monoblocks o casas bajas. vecinos solidarios.", piba: "Pura garra, laburo y aguante. códigos barriales inquebrantables." },
-        "Liniers": { zone: "ZONA_SUR_SUR", style: "centro_movida", pibe: "Movimiento comercial infernal y San Cayetano.", piba: "energía arrolladora, caminás rapidísimo esquivando gente." },
+        "Liniers": { zone: "ZONA_SUR_SUR", style: "centro_movida", pibe: "Movimiento comercial infernal y San Cayetano.", piba: "enrgía arrolladora, caminás rapidísimo esquivando gente." },
         "Nueva Pompeya": { zone: "ZONA_SUR_SUR", style: "oeste", pibe: "Cuna del tango y el Puente Alsina.", piba: "mística suburbana e histórica. tango, murga." },
         "Puerto Madero": { zone: "ZONA_SUR_SUR", style: "norte_top", pibe: "rascacielos espejados, diques. VIP absoluto.", piba: "Exclusividad total, diques limpios y seguridad máximo." },
         "Versalles": { zone: "ZONA_SUR_SUR", style: "residencial", pibe: "más verde y menos contaminación sonora.", piba: "Mística de película y tranquilidad total. familiero." }
@@ -428,7 +437,6 @@
 
     let currentGender = '';
     let currentQuestion = 0;
-    // === 🛠️ ARREGLO TÉCNICO: styleScores y zoneScores vacíos para arrancar limpio ===
     let styleScores = {};
     let zoneScores = {};
 
@@ -443,8 +451,7 @@
 
     function setGender(gender) {
         currentGender = gender;
-        // === 🛠️ ARREGLO TÉCNICO: Limpiamos los puntajes por si vuelven a jugar sin recargar ===
-        styleScores = { tradicional: 0, moderno: 0, bardo: 0, residencial: 0, oeste: 0, norte_top: 0, centro_movida: 0, sur_centro: 0 };
+        styleScores = { tradicional: 0, moderno: 0, bardo: 0, residential: 0, oeste: 0, norte_top: 0, centro_movida: 0, sur_centro: 0 };
         zoneScores = { ZONA_NORTE: 0, ZONA_CENTRO_OESTE: 0, ZONA_SUR_CENTRO: 0, ZONA_SUR_SUR: 0 };
         document.getElementById('progress-container').style.display = 'block';
         currentQuestion = 0;
@@ -454,11 +461,8 @@
 
     function showQuestion() {
         if(currentQuestion >= questions.length) {
-            // Cuando termina el juego, ocultamos la barra y activamos la carga animada
             document.getElementById('progress-container').style.display = 'none';
             nextScreen('screen-loading');
-            
-            // Espera de 3 segundos (3000 milisegundos) y muestra el resultado
             setTimeout(calculateResult, 3000);
             return;
         }
@@ -526,11 +530,9 @@
     }
 
     function restartQuiz() {
-        // === 🛠️ ARREGLO TÉCNICO: Reinicio total, directo a pantalla de género ===
         nextScreen('screen-gender');
     }
 
-    // === 💬 LÓGICA DE OPINIONES (JAVASCRIPT) ===
     function sendFeedback() {
         const opinionText = document.getElementById('user-opinion').value;
         const winnerBarrio = document.getElementById('result-name').innerText;
@@ -541,9 +543,7 @@
             return;
         }
 
-        // === 🛠️ Correo real verificado y intacto ===
         const tuEmail = "santiagosolari48@gmail.com"; 
-
         const subject = encodeURIComponent("Opinión sobre el Test de Barrios de CABA");
         const body = encodeURIComponent(
             `Veredicto: ${winnerBarrio} (${gender})\n` +
@@ -551,11 +551,8 @@
         );
 
         const mailtoLink = `mailto:${tuEmail}?subject=${subject}&body=${body}`;
-        
-        // Abre el correo del usuario
         window.location.href = mailtoLink;
 
-        // Limpia la casilla y confirma (aunque ya se fue al correo)
         document.getElementById('user-opinion').value = '';
         alert('¡Buenísimo! Se abrió tu correo para enviar la opinión. ¡Gracias por el aguante!');
     }
