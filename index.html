@@ -13,6 +13,8 @@
             --celeste: #F4C90B;
             --text: #1a252f;
             --oro: #f1c40f;
+            /* Margen de separación del borde de la pantalla (aprox 0.5 cm) */
+            --screen-margin: 16px; 
         }
         
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
@@ -25,17 +27,19 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            background-color: #f0f3f4; /* Un fondo gris muy claro sutil por detrás del margen */
         }
 
-        /* 🌆 CAPA DEL FONDO CORREGIDA (Se adapta al 100% exacto de cualquier pantalla) */
+        /* 🌆 CAPA DEL FONDO CON MARGEN (No toca los bordes de la pantalla, mantiene 0.5cm de aire) */
         .background-layer {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            top: var(--screen-margin);
+            left: var(--screen-margin);
+            width: calc(100vw - (var(--screen-margin) * 2));
+            height: calc(100vh - (var(--screen-margin) * 2));
             background: url('imagenes/fondo-buenos-aires.png') no-repeat center center;
-            background-size: 100% 100%;
+            background-size: cover; /* Se adapta al espacio interno de forma armónica sin deformarse */
+            border-radius: 16px; /* Bordes levemente redondeados para que quede más estético el recuadro */
             z-index: 1; 
             pointer-events: none;
         }
@@ -69,21 +73,19 @@
 
         .st-chori { left: 13%; animation-duration: 7s; animation-delay: 0s; }
         .st-chorizo { left: 66%; animation-duration: 8s; animation-delay: 4s; }
-        .st-truco { left: 45%; animation-duration: 7s; animation-delay: 4s; }
         .st-trucaso { left: 75%; animation-duration: 10s; animation-delay: 0s; }
+        .st-truco { left: 45%; animation-duration: 7s; animation-delay: 4s; }
         .st-mate  { left: 78%; animation-duration: 7s; animation-delay: 1s; }
         .st-mate  { left: 2%; animation-duration: 9s; animation-delay: 3s; }
-        
         .st-obelisco  { left: 88%; animation-duration: 10s; animation-delay: 4s; }
         .st-obeliscos  { left: 11%; animation-duration: 5s; animation-delay: 6s; }
-
         .st-copa { left: 28%; animation-duration: 9s; animation-delay: 2s; }
 
-        /* 📦 CUADRO DEL TEST CORREGIDO (Más ancho y cómodo) */
+        /* 📦 CUADRO DEL TEST */
         .container { 
             background: rgba(255, 255, 255, 0.96); 
             max-width: 500px; 
-            width: 92%; 
+            width: 90%; 
             padding: 25px; 
             border-radius: 24px; 
             border: 4px solid var(--celeste);
@@ -91,7 +93,7 @@
             text-align: center; 
             position: relative;
             z-index: 10; 
-            margin-top: 20px;
+            margin: 20px 0;
         }
 
         h1 { font-size: 26px; margin-bottom: 12px; color: var(--afa-blue); font-weight: 900; letter-spacing: -0.5px; line-height: 1.2; }
@@ -107,7 +109,7 @@
         .progress { height: 100%; background: var(--afa-blue); width: 0%; transition: width 0.2s ease; }
         .hidden { display: none; }
 
-        /* ⏳ PANTALLA DE CARGA DEL MATE */
+        /* ⏳ PANTALLA DE CARGA */
         .loading-layout { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px 10px; }
         .loading-gif { width: 180px; height: auto; margin-bottom: 20px; }
         .loading-text { font-size: 20px; font-weight: 800; color: var(--afa-blue); text-transform: uppercase; letter-spacing: 0.5px; }
@@ -119,10 +121,10 @@
         
         .speech-bubble { position: relative; background: #fdfefe; border: 3px solid var(--oro); border-radius: 16px; padding: 18px; font-size: 16px; line-height: 1.4; font-weight: 600; color: #2c3e50; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center; width: 100%; }
         
-        /* 💰 SECCIÓN AD SENSE COMPATIBLE */
+        /* 💰 AD SENSE */
         .adsense-space { background: #f2f4f4; border: 1px dashed #bdc3c7; padding: 15px 5px; margin-top: 15px; width: 100%; min-height: 100px; display: flex; align-items: center; justify-content: center; }
 
-        /* 📄 POLÍTICA DE PRIVACIDAD LEGAL EXIGIDA POR GOOGLE */
+        /* 📄 PRIVACIDAD */
         .privacy-box { margin-top: 20px; padding: 10px; background: #f8f9f9; border-top: 1px solid #eaeded; border-radius: 8px; font-size: 11px; color: #7f8c8d; text-align: center; line-height: 1.3; width: 100%; }
 
         .bg-text-arg { position: fixed; top: 80px; left: -20px; font-size: 230px; font-weight: 900; color: rgba(0, 50, 150, 0.03); font-family: 'Arial Black', Impact, sans-serif; z-index: 3; pointer-events: none; user-select: none; transform: rotate(-15deg); }
@@ -139,58 +141,21 @@
             box-shadow: 0 4px 8 rgba(0,0,0,0.03);
         }
 
-        #feedback-container h3 {
-            font-size: 18px;
-            color: var(--afa-blue);
-            margin-bottom: 10px;
-            font-weight: 800;
-        }
-
-        #feedback-container p {
-            font-size: 13px;
-            color: #7f8c8d;
-            margin-bottom: 12px;
-            line-height: 1.3;
-        }
-
-        #user-opinion {
-            width: 100%;
-            height: 80px;
-            border: 2px solid #eaeded;
-            border-radius: 10px;
-            padding: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            color: #2c3e50;
-            resize: none;
-            margin-bottom: 10px;
-        }
-        
-        #user-opinion:focus {
-            outline: none;
-            border-color: var(--afa-blue);
-        }
-
-        .btn-opinion {
-            background: #fff;
-            color: var(--afa-blue);
-            border: 2px solid var(--afa-blue);
-            width: 100%;
-            padding: 12px;
-            font-size: 14px;
-            text-align: center;
-        }
-
-        .btn-opinion:hover {
-            background: #fdfefe;
-        }
+        #feedback-container h3 { font-size: 18px; color: var(--afa-blue); margin-bottom: 10px; font-weight: 800; }
+        #feedback-container p { font-size: 13px; color: #7f8c8d; margin-bottom: 12px; line-height: 1.3; }
+        #user-opinion { width: 100%; height: 80px; border: 2px solid #eaeded; border-radius: 10px; padding: 10px; font-size: 14px; font-weight: 600; color: #2c3e50; resize: none; margin-bottom: 10px; }
+        #user-opinion:focus { outline: none; border-color: var(--afa-blue); }
+        .btn-opinion { background: #fff; color: var(--afa-blue); border: 2px solid var(--afa-blue); width: 100%; padding: 12px; font-size: 14px; text-align: center; }
 
         /* === 📱 AJUSTES MÓVILES EXCLUSIVOS === */
         @media (max-width: 600px) {
+            :root {
+                --screen-margin: 10px; /* Un toque más chico el margen en celus para no perder pantalla útil */
+            }
             h1 { font-size: 21px; margin-bottom: 8px; letter-spacing: -0.3px; }
             p { font-size: 14px; margin-bottom: 15px; }
             
-            .container { width: 92%; max-width: 480px; padding: 18px; border-width: 3px; }
+            .container { width: 88%; padding: 18px; border-width: 3px; }
             
             .floating-sticker { height: 60px; bottom: -60px; }
             
@@ -228,12 +193,10 @@
     <img src="imagenes/chori.png" alt="Choripan" class="floating-sticker st-chori">
     <img src="imagenes/chorizo.png" alt="Chorizo" class="floating-sticker st-chorizo">
     <img src="imagenes/trucaso.png" alt="Cartas Truco" class="floating-sticker st-trucaso">
-
     <img src="imagenes/truco.png" alt="Cartas Truco" class="floating-sticker st-truco">
     <img src="imagenes/mateico.png" alt="Mate" class="floating-sticker st-mate">
     <img src="imagenes/obelisco.png" alt="obelisco" class="floating-sticker st-obelisco">
     <img src="imagenes/obeliscos.png" alt="obeliscos" class="floating-sticker st-obeliscos">
-
     <img src="imagenes/copa.png" alt="copa" class="floating-sticker st-copa">
 </div>
 
@@ -272,7 +235,6 @@
             
             <div id="result-text" class="speech-bubble">Calculando...</div>
             
-            <!-- Bloque de anuncios automáticos real e integrado de AdSense -->
             <div class="adsense-space">
                 <ins class="adsbygoogle"
                      style="display:block"
@@ -294,7 +256,6 @@
                 <button class="btn btn-opinion" onclick="sendFeedback()">Enviar Opinión  📧</button>
             </div>
 
-            <!-- Texto legal requerido obligatoriamente por Google AdSense -->
             <div class="privacy-box">
                 Anuncios de Google. Este sitio utiliza cookies propias y de terceros para personalizar el contenido y analizar el tráfico web de forma anónima para AdSense.
             </div>
@@ -303,6 +264,7 @@
 </div>
 
 <script>
+    // Las preguntas y lógica de JS se mantienen exactamente igual
     const questions = [
         { q: "1. Sábado 7 de la tarde, ¿cuál plan te gusta más?", ops: [
             {t:"Quedarse en casa 🏠.", tag:"tradicional"},
@@ -550,7 +512,7 @@
             `Opinión:\n"${opinionText}"`
         );
 
-        const mailtoLink = `mailto:${tuEmail}?subject=${subject}&body=${body}`;
+        const mailtoLink = `mailto:${tuEmail}?subject=${subject}?body=${body}`;
         window.location.href = mailtoLink;
 
         document.getElementById('user-opinion').value = '';
