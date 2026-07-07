@@ -8,178 +8,191 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>¿De qué barrio de CABA sos?</title>
     <style>
-        :root {
-            --afa-blue:#F4A20B;
-            --celeste: #F4C90B;
-            --text: #1a252f;
-            --oro: #f1c40f;
-            /* Margen de separación del borde de la pantalla (aprox 0.5 cm) */
-            --screen-margin: 16px; 
-        }
-        
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
-        
-        body { 
-            margin: 0; 
-            padding: 0; 
-            min-height: 100vh;
-            overflow-x: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #f0f3f4; /* Un fondo gris muy claro sutil por detrás del margen */
-        }
+    :root {
+    --afa-blue:#F4A20B;
+    --celeste: #F4C90B;
+    --text: #1a252f;
+    --oro: #f1c40f;
+}
 
-        /* 🌆 CAPA DEL FONDO CON MARGEN (No toca los bordes de la pantalla, mantiene 0.5cm de aire) */
-        .background-layer {
-            position: fixed;
-            top: var(--screen-margin);
-            left: var(--screen-margin);
-            width: calc(100vw - (var(--screen-margin) * 2));
-            height: calc(100vh - (var(--screen-margin) * 2));
-            background: url('imagenes/fondo-buenos-aires.png') no-repeat center center;
-            background-size: cover; /* Se adapta al espacio interno de forma armónica sin deformarse */
-            border-radius: 16px; /* Bordes levemente redondeados para que quede más estético el recuadro */
-            z-index: 1; 
-            pointer-events: none;
-        }
+* { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+    font-family: 'Segoe UI', Roboto, sans-serif; 
+}
 
-        /* 🚀 CONTENEDOR DE STICKERS FLOTANTES */
-        .stickers-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2;
-            pointer-events: none;
-        }
+body { 
+    margin: 0; 
+    padding: 0; 
+    min-height: 100vh;
+    width: 100vw;
+    overflow-x: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Metemos el fondo directo acá, centrado arriba y que cubra TODO sin dejar bordes */
+    background: url('imagenes/fondo-buenos-aires.png') no-repeat top center fixed;
+    background-size: cover; 
+}
 
-        .floating-sticker {
-            position: absolute;
-            bottom: -90px; 
-            height: 90px; 
-            width: auto;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
-            animation: subir-cielo 10s linear infinite;
-        }
+/* Borramos por completo la clase anterior .background-layer del CSS ya que no se usa más */
+.background-layer {
+    display: none;
+}
 
-        @keyframes subir-cielo {
-            0% { bottom: -90px; transform: translateX(0) rotate(0deg); opacity: 1; }
-            15% { opacity: 0.9; }
-            85% { opacity: 0.9; }
-            100% { bottom: 110vh; transform: translateX(20px) rotate(360deg); opacity: 1; }
-        }
+/* 🚀 CONTENEDOR DE STICKERS FLOTANTES */
+.stickers-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
 
-        .st-chori { left: 13%; animation-duration: 7s; animation-delay: 0s; }
-        .st-chorizo { left: 66%; animation-duration: 8s; animation-delay: 4s; }
-        .st-trucaso { left: 75%; animation-duration: 10s; animation-delay: 0s; }
-        .st-truco { left: 45%; animation-duration: 7s; animation-delay: 4s; }
-        .st-mate  { left: 78%; animation-duration: 7s; animation-delay: 1s; }
-        .st-mate  { left: 2%; animation-duration: 9s; animation-delay: 3s; }
-        .st-obelisco  { left: 88%; animation-duration: 10s; animation-delay: 4s; }
-        .st-obeliscos  { left: 11%; animation-duration: 5s; animation-delay: 6s; }
-        .st-copa { left: 28%; animation-duration: 9s; animation-delay: 2s; }
+.floating-sticker {
+    position: absolute;
+    bottom: -90px; 
+    height: 90px; 
+    width: auto;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
+    animation: subir-cielo 10s linear infinite;
+}
 
-        /* 📦 CUADRO DEL TEST */
-        .container { 
-            background: rgba(255, 255, 255, 0.96); 
-            max-width: 500px; 
-            width: 90%; 
-            padding: 25px; 
-            border-radius: 24px; 
-            border: 4px solid var(--celeste);
-            box-shadow: 0 15px 35px rgba(11, 83, 148, 0.25); 
-            text-align: center; 
-            position: relative;
-            z-index: 10; 
-            margin: 20px 0;
-        }
+@keyframes subir-cielo {
+    0% { bottom: -90px; transform: translateX(0) rotate(0deg); opacity: 1; }
+    15% { opacity: 0.9; }
+    85% { opacity: 0.9; }
+    100% { bottom: 110vh; transform: translateX(20px) rotate(360deg); opacity: 1; }
+}
 
-        h1 { font-size: 26px; margin-bottom: 12px; color: var(--afa-blue); font-weight: 900; letter-spacing: -0.5px; line-height: 1.2; }
-        p { margin-bottom: 20px; font-size: 15px; line-height: 1.4; color: #566573; }
-        
-        .btn { display: block; width: 100%; padding: 18px; margin-bottom: 10px; background: #f8f9f9; border: 2px solid #d5dbdb; border-radius: 12px; font-size: 15px; font-weight: 700; color: var(--text); cursor: pointer; transition: all 0.1s ease; text-align: left; }
-        .btn:hover { border-color: var(--celeste); background: #ebf5fb; }
-        
-        .btn-start { text-align: center; background: var(--afa-blue); color: white; border: none; font-size: 18px; text-transform: uppercase; font-weight: 800; }
-        .btn-start:hover { background: #073763; }
-        
-        .progress-bar { width: 100%; height: 8px; background: #eaeded; border-radius: 4px; margin-bottom: 20px; overflow: hidden; display: none; }
-        .progress { height: 100%; background: var(--afa-blue); width: 0%; transition: width 0.2s ease; }
-        .hidden { display: none; }
+.st-chori { left: 13%; animation-duration: 7s; animation-delay: 0s; }
+.st-chorizo { left: 66%; animation-duration: 8s; animation-delay: 4s; }
+.st-trucaso { left: 75%; animation-duration: 10s; animation-delay: 0s; }
+.st-truco { left: 45%; animation-duration: 7s; animation-delay: 4s; }
+.st-mate  { left: 78%; animation-duration: 7s; animation-delay: 1s; }
+.st-mate  { left: 2%; animation-duration: 9s; animation-delay: 3s; }
+.st-obelisco  { left: 88%; animation-duration: 10s; animation-delay: 4s; }
+.st-obeliscos  { left: 11%; animation-duration: 5s; animation-delay: 6s; }
+.st-copa { left: 28%; animation-duration: 9s; animation-delay: 2s; }
 
-        /* ⏳ PANTALLA DE CARGA */
-        .loading-layout { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px 10px; }
-        .loading-gif { width: 180px; height: auto; margin-bottom: 20px; }
-        .loading-text { font-size: 20px; font-weight: 800; color: var(--afa-blue); text-transform: uppercase; letter-spacing: 0.5px; }
+/* 📦 CUADRO DEL TEST */
+.container { 
+    background: rgba(255, 255, 255, 0.96); 
+    max-width: 500px; 
+    width: 90%; 
+    padding: 25px; 
+    border-radius: 24px; 
+    border: 4px solid var(--celeste);
+    box-shadow: 0 15px 35px rgba(11, 83, 148, 0.25); 
+    text-align: center; 
+    position: relative;
+    z-index: 10; 
+    margin: 20px 0;
+}
 
-        /* 📊 RESULTADOS */
-        .result-layout { display: flex; flex-direction: column; align-items: center; margin-top: 15px; }
-        .result-tag { font-size: 13px; font-weight: 900; color: var(--afa-blue); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 5px; }
-        .result-title { font-size: 32px; color: #b7950b; margin-bottom: 15px; font-weight: 900; }
-        
-        .speech-bubble { position: relative; background: #fdfefe; border: 3px solid var(--oro); border-radius: 16px; padding: 18px; font-size: 16px; line-height: 1.4; font-weight: 600; color: #2c3e50; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center; width: 100%; }
-        
-        /* 💰 AD SENSE */
-        .adsense-space { background: #f2f4f4; border: 1px dashed #bdc3c7; padding: 15px 5px; margin-top: 15px; width: 100%; min-height: 100px; display: flex; align-items: center; justify-content: center; }
+h1 { font-size: 26px; margin-bottom: 12px; color: var(--afa-blue); font-weight: 900; letter-spacing: -0.5px; line-height: 1.2; }
+p { margin-bottom: 20px; font-size: 15px; line-height: 1.4; color: #566573; }
 
-        /* 📄 PRIVACIDAD */
-        .privacy-box { margin-top: 20px; padding: 10px; background: #f8f9f9; border-top: 1px solid #eaeded; border-radius: 8px; font-size: 11px; color: #7f8c8d; text-align: center; line-height: 1.3; width: 100%; }
+.btn { display: block; width: 100%; padding: 18px; margin-bottom: 10px; background: #f8f9f9; border: 2px solid #d5dbdb; border-radius: 12px; font-size: 15px; font-weight: 700; color: var(--text); cursor: pointer; transition: all 0.1s ease; text-align: left; }
+.btn:hover { border-color: var(--celeste); background: #ebf5fb; }
 
-        .bg-text-arg { position: fixed; top: 80px; left: -20px; font-size: 230px; font-weight: 900; color: rgba(0, 50, 150, 0.03); font-family: 'Arial Black', Impact, sans-serif; z-index: 3; pointer-events: none; user-select: none; transform: rotate(-15deg); }
+.btn-start { text-align: center; background: var(--afa-blue); color: white; border: none; font-size: 18px; text-transform: uppercase; font-weight: 800; }
+.btn-start:hover { background: #073763; }
 
-        /* === 🧱 CASILLA DE OPINIONES === */
-        #feedback-container {
-            margin-top: 25px;
-            background: #fdfefe;
-            border: 3px solid #eaeded;
-            border-radius: 16px;
-            padding: 15px;
-            width: 100%;
-            text-align: left;
-            box-shadow: 0 4px 8 rgba(0,0,0,0.03);
-        }
+.progress-bar { width: 100%; height: 8px; background: #eaeded; border-radius: 4px; margin-bottom: 20px; overflow: hidden; display: none; }
+.progress { height: 100%; background: var(--afa-blue); width: 0%; transition: width 0.2s ease; }
+.hidden { display: none; }
 
-        #feedback-container h3 { font-size: 18px; color: var(--afa-blue); margin-bottom: 10px; font-weight: 800; }
-        #feedback-container p { font-size: 13px; color: #7f8c8d; margin-bottom: 12px; line-height: 1.3; }
-        #user-opinion { width: 100%; height: 80px; border: 2px solid #eaeded; border-radius: 10px; padding: 10px; font-size: 14px; font-weight: 600; color: #2c3e50; resize: none; margin-bottom: 10px; }
-        #user-opinion:focus { outline: none; border-color: var(--afa-blue); }
-        .btn-opinion { background: #fff; color: var(--afa-blue); border: 2px solid var(--afa-blue); width: 100%; padding: 12px; font-size: 14px; text-align: center; }
+/* ⏳ PANTALLA DE CARGA */
+.loading-layout { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px 10px; }
+.loading-gif { width: 180px; height: auto; margin-bottom: 20px; }
+.loading-text { font-size: 20px; font-weight: 800; color: var(--afa-blue); text-transform: uppercase; letter-spacing: 0.5px; }
 
-        /* === 📱 AJUSTES MÓVILES EXCLUSIVOS === */
-        @media (max-width: 600px) {
-            :root {
-                --screen-margin: 10px; /* Un toque más chico el margen en celus para no perder pantalla útil */
-            }
-            h1 { font-size: 21px; margin-bottom: 8px; letter-spacing: -0.3px; }
-            p { font-size: 14px; margin-bottom: 15px; }
-            
-            .container { width: 88%; padding: 18px; border-width: 3px; }
-            
-            .floating-sticker { height: 60px; bottom: -60px; }
-            
-            @keyframes subir-cielo {
-                0% { bottom: -60px; transform: translateX(0) rotate(0deg); opacity: 1; }
-                15% { opacity: 0.9; }
-                85% { opacity: 0.9; }
-                100% { bottom: 110vh; transform: translateX(20px) rotate(360deg); opacity: 1; }
-            }
+/* 📊 RESULTADOS */
+.result-layout { display: flex; flex-direction: column; align-items: center; margin-top: 15px; }
+.result-tag { font-size: 13px; font-weight: 900; color: var(--afa-blue); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 5px; }
+.result-title { font-size: 32px; color: #b7950b; margin-bottom: 15px; font-weight: 900; }
 
-            .btn { font-size: 14px; padding: 14px; }
-            .btn-start { font-size: 16px; }
-            
-            .loading-gif { width: 120px; }
-            .loading-text { font-size: 16px; }
-            
-            .result-title { font-size: 24px; }
-            .result-tag { font-size: 11px; }
-            .speech-bubble { font-size: 14px; padding: 12px; }
-            .adsense-space { min-height: 80px; }
-            
-            #feedback-container h3 { font-size: 16px; }
-            #user-opinion { height: 70px; font-size: 13px; }
-            .btn-opinion { padding: 10px; font-size: 13px; }
+.speech-bubble { position: relative; background: #fdfefe; border: 3px solid var(--oro); border-radius: 16px; padding: 18px; font-size: 16px; line-height: 1.4; font-weight: 600; color: #2c3e50; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center; width: 100%; }
+
+/* 💰 AD SENSE */
+.adsense-space { background: #f2f4f4; border: 1px dashed #bdc3c7; padding: 15px 5px; margin-top: 15px; width: 100%; min-height: 100px; display: flex; align-items: center; justify-content: center; }
+
+/* 📄 PRIVACIDAD */
+.privacy-box { margin-top: 20px; padding: 10px; background: #f8f9f9; border-top: 1px solid #eaeded; border-radius: 8px; font-size: 11px; color: #7f8c8d; text-align: center; line-height: 1.3; width: 100%; }
+
+.bg-text-arg { position: fixed; top: 80px; left: -20px; font-size: 230px; font-weight: 900; color: rgba(0, 50, 150, 0.03); font-family: 'Arial Black', Impact, sans-serif; z-index: 3; pointer-events: none; user-select: none; transform: rotate(-15deg); }
+
+/* === 🧱 CASILLA DE OPINIONES === */
+#feedback-container {
+    margin-top: 25px;
+    background: #fdfefe;
+    border: 3px solid #eaeded;
+    border-radius: 16px;
+    padding: 15px;
+    width: 100%;
+    text-align: left;
+    box-shadow: 0 4px 8 rgba(0,0,0,0.03);
+}
+
+#feedback-container h3 { font-size: 18px; color: var(--afa-blue); margin-bottom: 10px; font-weight: 800; }
+#feedback-container p { font-size: 13px; color: #7f8c8d; margin-bottom: 12px; line-height: 1.3; }
+#user-opinion { width: 100%; height: 80px; border: 2px solid #eaeded; border-radius: 10px; padding: 10px; font-size: 14px; font-weight: 600; color: #2c3e50; resize: none; margin-bottom: 10px; }
+#user-opinion:focus { outline: none; border-color: var(--afa-blue); }
+.btn-opinion { background: #fff; color: var(--afa-blue); border: 2px solid var(--afa-blue); width: 100%; padding: 12px; font-size: 14px; text-align: center; }
+
+
+}
+/* === 📱 AJUSTES MÓVILES EXCLUSIVOS === */
+@media (max-width: 600px) {
+    body {
+        /* Usamos cover para asegurarnos de que llene el 100% del alto y ancho disponible sin dejar aire abajo */
+        background-size: cover;
+        /* Lo centramos para que el Obelisco y el cartel queden siempre en el eje */
+        background-position: center top;
+        background-attachment: fixed;
+    }
+    
+    h1 { font-size: 21px; margin-bottom: 8px; letter-spacing: -0.3px; }
+    p { font-size: 14px; margin-bottom: 15px; }
+    
+    /* Le damos un margen arriba al contenedor para que no tape las letras "BUENOS AIRES" del fondo */
+    .container { 
+        width: 88%; 
+        padding: 18px; 
+        border-width: 3px; 
+        margin-top: 140px; /* Le da aire al cartel de arriba para que respire */
+        margin-bottom: 20px;
+    }
+    
+    .floating-sticker { height: 60px; bottom: -60px; }
+    
+    @keyframes subir-cielo {
+        0% { bottom: -60px; transform: translateX(0) rotate(0deg); opacity: 1; }
+        15% { opacity: 0.9; }
+        85% { opacity: 0.9; }
+        100% { bottom: 110vh; transform: translateX(20px) rotate(360deg); opacity: 1; }
+    }
+
+    .btn { font-size: 14px; padding: 14px; }
+    .btn-start { font-size: 16px; }
+    
+    .loading-gif { width: 120px; }
+    .loading-text { font-size: 16px; }
+    
+    .result-title { font-size: 24px; }
+    .result-tag { font-size: 11px; }
+    .speech-bubble { font-size: 14px; padding: 12px; }
+    .adsense-space { min-height: 80px; }
+    
+    #feedback-container h3 { font-size: 16px; }
+    #user-opinion { height: 70px; font-size: 13px; }
+    .btn-opinion { padding: 10px; font-size: 13px; }
+}
+           
         }
     </style>
 </head>
@@ -264,7 +277,7 @@
 </div>
 
 <script>
-    // Las preguntas y lógica de JS se mantienen exactamente igual
+    // Tu JavaScript intacto para las preguntas
     const questions = [
         { q: "1. Sábado 7 de la tarde, ¿cuál plan te gusta más?", ops: [
             {t:"Quedarse en casa 🏠.", tag:"tradicional"},
@@ -364,7 +377,7 @@
     const barrioteca = {
         "Palermo": { zone: "ZONA_NORTE", style: "moderno", pibe: "Te re dio Palermo Soho. Flat white con leche de almendras y outfit oversize.", piba: "Te re dio Palermo. Avocado toast, depto estallado de plantas exóticas." },
         "Recoleta": { zone: "ZONA_NORTE", style: "norte_top", pibe: "Lo tuyo es caminar entre arquitectura europea y usar perfume importado.", piba: "Amás pasear por la Av. Alvear, tus modales son impecables." },
-        "Belgrano": { zone: "ZONA_NORTE", style: "residencial", pibe: "Equilibrio entre torres y caserones.running por las Barrancas.", piba: "Tranquilidad residencial pero con categoría. mates en Barrancas." },
+        "Belgrano": { zone: "ZONA_NORTE", style: "residencial", pibe: "Equilibrio entre torres y caserones.running por las Barrancas.", piba: "Tranquilidad residential pero con categoría. mates en Barrancas." },
         "Colegiales": { zone: "ZONA_NORTE", style: "tradicional", pibe: "Vecino de Palermo pero con códigos de barrio de antes. PH reciclado.", piba: "Toda la onda pero cero careteada. Te encantan los cafecitos escondidos." },
         "Nuñez": { zone: "ZONA_NORTE", style: "centro_movida", pibe: "Actividades al aire libre y movida gastronómica nueva.", piba: "Amás la cercanía con el río, salir a caminar los findes." },
         "Saavedra": { zone: "ZONA_NORTE", style: "sur_centro", pibe: "Ritual sagrado ir al Parque Saavedra a clavar unos amargos.", piba: "Tardes en el parque tomando mates con churros." },
@@ -512,7 +525,7 @@
             `Opinión:\n"${opinionText}"`
         );
 
-        const mailtoLink = `mailto:${tuEmail}?subject=${subject}?body=${body}`;
+        const mailtoLink = `mailto:${tuEmail}?subject=${subject}&body=${body}`;
         window.location.href = mailtoLink;
 
         document.getElementById('user-opinion').value = '';
