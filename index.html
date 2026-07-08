@@ -37,7 +37,6 @@
         display: flex;
         flex-direction: column; 
         align-items: center;
-        /* Controlamos la distancia desde arriba de forma limpia */
         padding-top: 100px; 
         padding-bottom: 40px;
         background: url('imagenes/fondo-buenos-aires.png') no-repeat top center fixed;
@@ -51,7 +50,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        z-index: 12;
+        z-index: 5; 
         pointer-events: none;
     }
 
@@ -95,6 +94,7 @@
         z-index: 10; 
         margin: 0 auto 20px auto;
         transition: background 0.3s ease, border 0.3s ease;
+        overflow: hidden; 
     }
 
     /* 🎨 ESTILO FILETEADO PORTEÑO TRADICIONAL */
@@ -112,22 +112,22 @@
     .filete-corner {
         display: none;
         position: absolute;
-        width: 95px;  
-        height: 115px;
-        object-fit: cover; 
-        border-radius: 8px;
+        width: 60px;  
+        height: auto;
         pointer-events: none;
         z-index: 11;
+        outline: none;
+        border: none;
     }
     
     .container.fileteado-active .filete-corner {
         display: block;
     }
     
-    .corner-tl { top: 8px; left: 2px; }
-    .corner-tr { top: 8px; right: 0px; transform: scaleX(-1); }
-    .corner-bl { bottom: 8px; left: 2px; transform: scaleY(-1); }
-    .corner-br { bottom: 8px; right: 0px; transform: scale(-1); }
+    .corner-tl { top: 5px; left: 5px; }
+    .corner-tr { top: 5px; right: 5px; transform: scaleX(-1); }
+    .corner-bl { bottom: 5px; left: 5px; transform: scaleY(-1); }
+    .corner-br { bottom: 5px; right: 5px; transform: scale(-1); }
 
     .filete-subtitle {
         font-family: 'Georgia', 'Times New Roman', serif;
@@ -213,21 +213,53 @@
     #user-opinion { width: 100%; height: 80px; border: 2px solid #eaeded; border-radius: 10px; padding: 10px; font-size: 14px; font-weight: 600; color: #2c3e50; resize: none; margin-bottom: 10px; }
     .btn-opinion { background: #fff; color: var(--afa-blue); border: 2px solid var(--afa-blue); width: 100%; padding: 12px; font-size: 14px; text-align: center; }
 
-    /* 🍪 ESTILO DEL AVISO DE COOKIES */
-    .cookies-notice {
-        margin-top: 15px;
-        font-size: 11px;
-        color: #7f8c8d;
-        line-height: 1.4;
+    /* 🍪 ESTILOS DEL CARTEL DE COOKIES */
+    .cookie-banner {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        max-width: 500px;
+        background: rgba(26, 37, 47, 0.98);
+        color: #ffffff;
+        padding: 15px 20px;
+        border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        z-index: 9999; /* Siempre arriba de todo */
         text-align: center;
+        border: 2px solid var(--celeste);
+    }
+    .cookie-banner p {
+        font-size: 13px;
+        line-height: 1.4;
+        color: #e5e7eb;
+        margin: 0;
+    }
+    .cookie-banner button {
+        background: var(--afa-blue);
+        color: white;
+        border: none;
+        padding: 8px 24px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
         width: 100%;
-        padding: 0 10px;
+        transition: background 0.2s;
+    }
+    .cookie-banner button:hover {
+        background: #073763;
     }
 
     /* 📱 VISTA EN CELULARES */
     @media (max-width: 600px) {
         body { padding-top: 120px; } 
-        .filete-corner { width: 95px; height: 115px; }
+        .filete-corner { width: 45px; }
         .container { width: 88%; padding: 18px; } 
         .container.fileteado-active { padding: 35px 20px; }
         h1 { font-size: 21px; }
@@ -243,6 +275,7 @@
     <img src="imagenes/chori.png" class="floating-sticker st-chori">
     <img src="imagenes/chorizo.png" class="floating-sticker st-chorizo">
     <img src="imagenes/trucaso.png" class="floating-sticker st-trucaso">
+    <img src="imagenes/truco.png" class="floating-sticker st-truco">
     <img src="imagenes/mateico.png" class="floating-sticker st-mate">
     <img src="imagenes/obelisco.png" class="floating-sticker st-obelisco">
     <img src="imagenes/obeliscos.png" class="floating-sticker st-obeliscos">
@@ -250,10 +283,10 @@
 </div>
 
 <div id="main-container" class="container fileteado-active">
-    <img src="imagenes/fileteado.png" class="filete-corner corner-tl" onerror="this.src='imagenes/fileteado.png.png'">
-    <img src="imagenes/fileteado.png" class="filete-corner corner-tr" onerror="this.src='imagenes/fileteado.png.png'">
-    <img src="imagenes/fileteado.png" class="filete-corner corner-bl" onerror="this.src='imagenes/fileteado.png.png'">
-    <img src="imagenes/fileteado.png" class="filete-corner corner-br" onerror="this.src='imagenes/fileteado.png.png'">
+    <img src="imagenes/fileteado.png" class="filete-corner corner-tl" onerror="this.src='imagenes/fileteado.png'">
+    <img src="imagenes/fileteado.png" class="filete-corner corner-tr" onerror="this.src='imagenes/fileteado.png'">
+    <img src="imagenes/fileteado.png" class="filete-corner corner-bl" onerror="this.src='imagenes/fileteado.png'">
+    <img src="imagenes/fileteado.png" class="filete-corner corner-br" onerror="this.src='imagenes/fileteado.png'">
 
     <div id="progress-container" class="progress-bar"><div id="progress" class="progress"></div></div>
     
@@ -302,15 +335,11 @@
                 <p>Si te salió cualquier barrio o tenés una idea de otra pregunta, Dejalo acá abajo!</p>
                 <textarea id="user-opinion" placeholder="Tu opinión sincera..."></textarea>
                 <button class="btn btn-opinion" onclick="sendFeedback()">Enviar Opinión 📧</button>
-                
-                <!-- 🍪 AVISO DE COOKIES INTEGRADO REGLAMENTARIO PARA ADSENSE -->
-                <p class="cookies-notice">Este sitio utiliza cookies propias y de terceros, como Google AdSense, para personalizar los anuncios y analizar el tráfico. Al interactuar con la página, aceptas su uso conforme a las políticas de privacidad vigentes.</p>
             </div>
         </div>
     </div>
 </div>
 
-<!-- 📑 BLOQUE DE GUÍA CULTURAL PARA GOOGLE ADSENSE 📑 -->
 <section style="max-width: 500px; width: 90%; margin: 40px auto; padding: 20px; background: rgba(255, 255, 255, 0.95); border-radius: 16px; border: 2px solid #eaeded; font-family: 'Segoe UI', Roboto, sans-serif; text-align: left; color: #2c3e50; box-shadow: 0 4px 15px rgba(0,0,0,0.05); position: relative; z-index: 10;">
     <h2 style="font-size: 18px; color: #F4A20B; margin-bottom: 12px; font-weight: 800; border-bottom: 2px solid #F4C90B; padding-bottom: 5px; text-transform: uppercase;">Guía Cultural: Los 48 Barrios de Buenos Aires</h2>
     <p style="font-size: 13px; line-height: 1.5; margin-bottom: 15px; color: #566573;">La Ciudad Autónoma de Buenos Aires (CABA) es reconocida mundialmente por su vibrante arquitectura, su pasión futbolera y, fundamentalmente, la marcada identidad de sus 48 barrios oficiales...</p>
@@ -330,6 +359,12 @@
         <span style="font-size: 12px; line-height: 1.4; color: #7f8c8d; display: block;">Para nada. El test mide tu "personalidad adoptiva"...</span>
     </div>
 </section>
+
+<!-- 🍪 BANNER DE COOKIES (VUELTO A AGREGAR) -->
+<div id="cookie-banner" class="cookie-banner">
+    <p>Utilizamos cookies propias y de terceros para mejorar tu experiencia de navegación y mostrarte publicidad personalizada mediante el análisis de tus hábitos de navegación.</p>
+    <button onclick="acceptCookies()">Aceptar todo</button>
+</div>
 
 <script>
     const questions = [
@@ -465,6 +500,18 @@
         const opinionText = document.getElementById('user-opinion').value;
         if (!opinionText.trim()) return alert('¡Dale fiera, escribite algo! 😅');
         window.location.href = `mailto:santiagosolari48@gmail.com?subject=Opinión&body=${encodeURIComponent(opinionText)}`;
+    }
+
+    /* 📜 FUNCIONALIDAD DE COOKIES */
+    window.onload = function() {
+        if (localStorage.getItem('cookiesAceptadas') === 'true') {
+            document.getElementById('cookie-banner').style.display = 'none';
+        }
+    }
+
+    function acceptCookies() {
+        localStorage.setItem('cookiesAceptadas', 'true');
+        document.getElementById('cookie-banner').style.display = 'none';
     }
 </script>
 </body>
