@@ -6,7 +6,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¿De qué barrio de CABA os?</title>
+    <title>¿De qué barrio de CABA sos?</title>
     <style>
     :root {
         --afa-blue:#F4A20B;
@@ -37,15 +37,11 @@
         display: flex;
         flex-direction: column; 
         align-items: center;
-        /* Ajustamos el padding superior para empujar el test hacia abajo y dejar libre el fondo */
-        padding-top: 140px; 
+        /* Controlamos la distancia desde arriba de forma limpia */
+        padding-top: 100px; 
         padding-bottom: 40px;
         background: url('imagenes/fondo-buenos-aires.png') no-repeat top center fixed;
         background-size: cover; 
-    }
-
-    .background-layer {
-        display: none;
     }
 
     /* 🚀 CONTENEDOR DE STICKERS FLOTANTES */
@@ -55,7 +51,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        z-index: 12; /* Subido para que los stickers floten por encima si es necesario */
+        z-index: 12;
         pointer-events: none;
     }
 
@@ -77,6 +73,7 @@
 
     .st-chori { left: 13%; animation-duration: 7s; animation-delay: 0s; }
     .st-chorizo { left: 66%; animation-duration: 8s; animation-delay: 4s; }
+    .st-trucaso { left: 75%; animation-duration: 10s; animation-delay: 0s; }
     .st-truco { left: 45%; animation-duration: 7s; animation-delay: 4s; }
     .st-mate  { left: 78%; animation-duration: 7s; animation-delay: 1s; }
     .st-mate-2  { left: 2%; animation-duration: 9s; animation-delay: 3s; }
@@ -111,7 +108,7 @@
         padding: 40px 28px;
     }
 
-    /* 🖼️ CONTROL ESTRICTO DE IMAGEN EN ESQUINAS - VALORES ORIGINALES CONSERVADOS */
+    /* 🖼️ MARCOS DEL FILETEADO */
     .filete-corner {
         display: none;
         position: absolute;
@@ -127,7 +124,6 @@
         display: block;
     }
     
-    /* Posiciones y rotaciones para simular esquinas perfectas con tu imagen */
     .corner-tl { top: 8px; left: 2px; }
     .corner-tr { top: 8px; right: 0px; transform: scaleX(-1); }
     .corner-bl { bottom: 8px; left: 2px; transform: scaleY(-1); }
@@ -199,9 +195,7 @@
     .speech-bubble { position: relative; background: rgba(255, 255, 255, 0.95); border: 2px solid var(--filete-border-dark); border-radius: 16px; padding: 18px; font-size: 16px; line-height: 1.4; font-weight: 600; color: #2c3e50; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); text-align: center; width: 100%; }
 
     .adsense-space { background: #f2f4f4; border: 1px dashed #bdc3c7; padding: 15px 5px; margin-top: 15px; width: 100%; min-height: 100px; display: flex; align-items: center; justify-content: center; }
-    .privacy-box { margin-top: 20px; padding: 10px; background: #f8f9f9; border-top: 1px solid #eaeded; border-radius: 8px; font-size: 11px; color: #7f8c8d; text-align: center; line-height: 1.3; width: 100%; }
     
-    /* Letras gigantes de fondo reposicionadas levemente */
     .bg-text-arg { position: fixed; top: 60px; left: -20px; font-size: 230px; font-weight: 900; color: rgba(0, 50, 150, 0.03); font-family: 'Arial Black', Impact, sans-serif; z-index: 3; pointer-events: none; user-select: none; transform: rotate(-15deg); }
 
     #feedback-container {
@@ -219,11 +213,22 @@
     #user-opinion { width: 100%; height: 80px; border: 2px solid #eaeded; border-radius: 10px; padding: 10px; font-size: 14px; font-weight: 600; color: #2c3e50; resize: none; margin-bottom: 10px; }
     .btn-opinion { background: #fff; color: var(--afa-blue); border: 2px solid var(--afa-blue); width: 100%; padding: 12px; font-size: 14px; text-align: center; }
 
-    /* 📱 VISTA EN CELULARES - RE-AJUSTADO PARA QUE NO SE PEGUE ARRIBA */
+    /* 🍪 ESTILO DEL AVISO DE COOKIES */
+    .cookies-notice {
+        margin-top: 15px;
+        font-size: 11px;
+        color: #7f8c8d;
+        line-height: 1.4;
+        text-align: center;
+        width: 100%;
+        padding: 0 10px;
+    }
+
+    /* 📱 VISTA EN CELULARES */
     @media (max-width: 600px) {
-        body { padding-top: 180px; } /* Más espacio arriba en pantallas chicas */
+        body { padding-top: 120px; } 
         .filete-corner { width: 95px; height: 115px; }
-        .container { width: 88%; padding: 18px; margin-top: 0px; } /* Quitamos el margin-top viejo para controlar todo con el body */
+        .container { width: 88%; padding: 18px; } 
         .container.fileteado-active { padding: 35px 20px; }
         h1 { font-size: 21px; }
         .btn { font-size: 14px; padding: 14px; }
@@ -238,7 +243,6 @@
     <img src="imagenes/chori.png" class="floating-sticker st-chori">
     <img src="imagenes/chorizo.png" class="floating-sticker st-chorizo">
     <img src="imagenes/trucaso.png" class="floating-sticker st-trucaso">
-    
     <img src="imagenes/mateico.png" class="floating-sticker st-mate">
     <img src="imagenes/obelisco.png" class="floating-sticker st-obelisco">
     <img src="imagenes/obeliscos.png" class="floating-sticker st-obeliscos">
@@ -246,7 +250,6 @@
 </div>
 
 <div id="main-container" class="container fileteado-active">
-    <!-- 🖼️ Marcos directos con soporte para ambas extensiones (.png y .png.png) -->
     <img src="imagenes/fileteado.png" class="filete-corner corner-tl" onerror="this.src='imagenes/fileteado.png.png'">
     <img src="imagenes/fileteado.png" class="filete-corner corner-tr" onerror="this.src='imagenes/fileteado.png.png'">
     <img src="imagenes/fileteado.png" class="filete-corner corner-bl" onerror="this.src='imagenes/fileteado.png.png'">
@@ -263,7 +266,7 @@
 
     <div id="screen-gender" class="hidden">
         <h1 style="color: var(--text); text-shadow: none; font-family: 'Segoe UI', sans-serif;">¿CÓMO TE CONSIDERÁS?</h1>
-        <p>Seleccioná tu option para arrancar:</p>
+        <p>Seleccioná tu opción para arrancar:</p>
         <button class="btn" onclick="setGender('pibe')">Soy hombre 👦</button>
         <button class="btn" onclick="setGender('piba')">Soy mujer 👧</button>
     </div>
@@ -299,6 +302,9 @@
                 <p>Si te salió cualquier barrio o tenés una idea de otra pregunta, Dejalo acá abajo!</p>
                 <textarea id="user-opinion" placeholder="Tu opinión sincera..."></textarea>
                 <button class="btn btn-opinion" onclick="sendFeedback()">Enviar Opinión 📧</button>
+                
+                <!-- 🍪 AVISO DE COOKIES INTEGRADO REGLAMENTARIO PARA ADSENSE -->
+                <p class="cookies-notice">Este sitio utiliza cookies propias y de terceros, como Google AdSense, para personalizar los anuncios y analizar el tráfico. Al interactuar con la página, aceptas su uso conforme a las políticas de privacidad vigentes.</p>
             </div>
         </div>
     </div>
@@ -306,50 +312,23 @@
 
 <!-- 📑 BLOQUE DE GUÍA CULTURAL PARA GOOGLE ADSENSE 📑 -->
 <section style="max-width: 500px; width: 90%; margin: 40px auto; padding: 20px; background: rgba(255, 255, 255, 0.95); border-radius: 16px; border: 2px solid #eaeded; font-family: 'Segoe UI', Roboto, sans-serif; text-align: left; color: #2c3e50; box-shadow: 0 4px 15px rgba(0,0,0,0.05); position: relative; z-index: 10;">
-    
-    <h2 style="font-size: 18px; color: #F4A20B; margin-bottom: 12px; font-weight: 800; border-bottom: 2px solid #F4C90B; padding-bottom: 5px; text-transform: uppercase;">
-        Guía Cultural: Los 48 Barrios de Buenos Aires
-    </h2>
-    
-    <p style="font-size: 13px; line-height: 1.5; margin-bottom: 15px; color: #566573;">
-        La Ciudad Autónoma de Buenos Aires (CABA) es reconocida mundialmente por su vibrante arquitectura, su pasión futbolera y, fundamentalmente, la marcada identidad de sus 48 barrios oficiales. Cada comuna agrupa historias, modismos y perfiles urbanos tan definidos que determinan el estilo de vida de sus habitantes. Desde el tango hasta los cafés de especialidad, la geografía porteña se divide en zonas con místicas inconfundibles.
-    </p>
-
-    <h3 style="font-size: 14px; color: #1a252f; margin-bottom: 8px; font-weight: 700;">
-        ¿Cómo funciona el análisis de personalidad urbana?
-    </h3>
-    <p style="font-size: 13px; line-height: 1.5; margin-bottom: 15px; color: #566573;">
-        Nuestro algoritmo de afinidad cultural evalúa variables cotidianas como las preferencias de transporte público (las históricas líneas de subte A, B, D o H), los hábitos de consumo gastronómico (el clásico bodegón frente a las nuevas cafeterías de Palermo) y los circuitos de entretenimiento nocturno. A través de respuestas ponderadas, el sistema establece un mapa de calor para determinar si tu perfil se alinea con la bohemia del sur, el ritmo del centro o la residencial tranquilidad del oeste capitalino.
-    </p>
-
-    <h3 style="font-size: 14px; color: #1a252f; margin-bottom: 8px; font-weight: 700;">
-        Preguntas Frecuentes sobre el Cuestionario Porteño (FAQ)
-    </h3>
-    
+    <h2 style="font-size: 18px; color: #F4A20B; margin-bottom: 12px; font-weight: 800; border-bottom: 2px solid #F4C90B; padding-bottom: 5px; text-transform: uppercase;">Guía Cultural: Los 48 Barrios de Buenos Aires</h2>
+    <p style="font-size: 13px; line-height: 1.5; margin-bottom: 15px; color: #566573;">La Ciudad Autónoma de Buenos Aires (CABA) es reconocida mundialmente por su vibrante arquitectura, su pasión futbolera y, fundamentalmente, la marcada identidad de sus 48 barrios oficiales...</p>
+    <h3 style="font-size: 14px; color: #1a252f; margin-bottom: 8px; font-weight: 700;">¿Cómo funciona el análisis de personalidad urbana?</h3>
+    <p style="font-size: 13px; line-height: 1.5; margin-bottom: 15px; color: #566573;">Nuestro algoritmo de afinidad cultural evalúa variables cotidianas como las preferencias de transporte público, los hábitos de consumo gastronómico y los circuitos de entretenimiento nocturno...</p>
+    <h3 style="font-size: 14px; color: #1a252f; margin-bottom: 8px; font-weight: 700;">Preguntas Frecuentes sobre el Cuestionario Porteño (FAQ)</h3>
     <div style="margin-bottom: 10px;">
         <strong style="font-size: 13px; color: #1a252f; display: block; margin-bottom: 2px;">1. ¿El test incluye los 48 barrios de la Ciudad?</strong>
-        <span style="font-size: 12px; line-height: 1.4; color: #7f8c8d; display: block;">
-            Sí, el análisis contempla la división política oficial de la Ciudad de Buenos Aires, agrupando las tendencias en los polos culturales más representativos como Caballito, San Telmo, Recoleta, Almagro y Chacarita.
-        </span>
+        <span style="font-size: 12px; line-height: 1.4; color: #7f8c8d; display: block;">Sí, el análisis contempla la división política oficial de la Ciudad de Buenos Aires...</span>
     </div>
-
     <div style="margin-bottom: 10px;">
         <strong style="font-size: 13px; color: #1a252f; display: block; margin-bottom: 2px;">2. ¿Qué criterios se utilizan para el veredicto?</strong>
-        <span style="font-size: 12px; line-height: 1.4; color: #7f8c8d; display: block;">
-            Evaluamos las respuestas basadas en la rutina rioplatense: medios de movilidad, elecciones culinarias tradicionales (como el asado o las empanadas), zonas de esparcimiento y la reacción ante situaciones típicas del día a día en la city porteña.
-        </span>
+        <span style="font-size: 12px; line-height: 1.4; color: #7f8c8d; display: block;">Evaluamos las respuestas basadas en la rutina rioplatense: medios de movilidad, elecciones culinarias tradicionales...</span>
     </div>
-
     <div style="margin-bottom: 10px;">
         <strong style="font-size: 13px; color: #1a252f; display: block; margin-bottom: 2px;">3. ¿Es necesario haber nacido en CABA para realizarlo?</strong>
-        <span style="font-size: 12px; line-height: 1.4; color: #7f8c8d; display: block;">
-            Para nada. El test mide tu "personalidad adoptiva". Podés haber nacido en el Gran Buenos Aires, en el interior del país o en el extranjero, y aun así tener un estilo de vida que encaje perfectamente con la mística de un barrio específico.
-        </span>
+        <span style="font-size: 12px; line-height: 1.4; color: #7f8c8d; display: block;">Para nada. El test mide tu "personalidad adoptiva"...</span>
     </div>
-
-    <p style="font-size: 11px; color: #bdc3c7; text-align: center; margin-top: 15px; border-top: 1px dashed #eaeded; padding-top: 10px;">
-        Información cultural de libre acceso. Actualizado para cumplir con las directrices de calidad y contenido de plataformas digitales.
-    </p>
 </section>
 
 <script>
